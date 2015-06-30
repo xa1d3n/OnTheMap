@@ -57,7 +57,7 @@
                                 </constraints>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="JeY-Vg-4zR"/>
@@ -90,7 +90,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="b0N-7U-vHx" kind="show" id="Yqo-f1-dpO"/>
+                                    <action selector="loginButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ggJ-K2-5dv"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account? Sign Up" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5mA-uY-lQc">
@@ -182,15 +182,20 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="emailInput" destination="t2W-dh-VXb" id="bsb-7c-uvR"/>
+                        <outlet property="login" destination="nxQ-uB-Y7A" id="P2M-k0-rX1"/>
+                        <outlet property="passwordInput" destination="Nkp-7n-mZ2" id="qSh-dt-NOM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="244.5" y="348.75"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--MapTabs-->
         <scene sceneID="1qK-CS-8Xt">
             <objects>
-                <tabBarController id="b0N-7U-vHx" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MapTabs" title="MapTabs" id="b0N-7U-vHx" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="j1L-dk-rPw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
