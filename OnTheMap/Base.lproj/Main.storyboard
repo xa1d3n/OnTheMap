@@ -303,7 +303,7 @@
         <!--Map View-->
         <scene sceneID="jYx-7f-cbR">
             <objects>
-                <viewController title="Map View" id="TG2-Sq-fzM" sceneMemberID="viewController">
+                <viewController title="Map View" id="TG2-Sq-fzM" customClass="MapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L9K-pn-dyZ"/>
                         <viewControllerLayoutGuide type="bottom" id="iLN-9a-CFP"/>
@@ -311,7 +311,43 @@
                     <view key="view" contentMode="scaleToFill" id="3SX-cF-dRF">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3xw-K8-Ey0">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <connections>
+                                    <outlet property="delegate" destination="TG2-Sq-fzM" id="29j-8V-sma"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="3xw-K8-Ey0" secondAttribute="trailing" constant="-16" id="G7K-cO-aec"/>
+                            <constraint firstItem="3xw-K8-Ey0" firstAttribute="top" secondItem="3SX-cF-dRF" secondAttribute="topMargin" id="LEx-Wy-xyG"/>
+                            <constraint firstItem="3xw-K8-Ey0" firstAttribute="bottom" secondItem="3SX-cF-dRF" secondAttribute="bottomMargin" id="YNf-cm-Ym2"/>
+                            <constraint firstItem="3xw-K8-Ey0" firstAttribute="leading" secondItem="3SX-cF-dRF" secondAttribute="leadingMargin" constant="-16" id="mqd-u2-jhT"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="3xw-K8-Ey0"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="G7K-cO-aec"/>
+                                <exclude reference="LEx-Wy-xyG"/>
+                                <exclude reference="YNf-cm-Ym2"/>
+                                <exclude reference="mqd-u2-jhT"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="3xw-K8-Ey0"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="G7K-cO-aec"/>
+                                <include reference="LEx-Wy-xyG"/>
+                                <include reference="YNf-cm-Ym2"/>
+                                <include reference="mqd-u2-jhT"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="On The Map" id="Xs7-cd-Wey">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="oHh-df-RKf"/>
