@@ -41,7 +41,7 @@ class ViewController: UIViewController {
     }
     
     func loginUser() {
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
+       /* let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -52,9 +52,35 @@ class ViewController: UIViewController {
                 return
             }
             let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
-            println(NSString(data: newData, encoding: NSUTF8StringEncoding))
+           // println(NSString(data: newData, encoding: NSUTF8StringEncoding))
+        
+            //println(NSString(data: data, encoding: NSUTF8StringEncoding))
+            let jsonString = NSString(data: newData, encoding: NSUTF8StringEncoding)
+            let dataStuff = NSData(data: newData)
+            
+            var parseError: NSError? = nil
+            let parseStuff = NSJSONSerialization.JSONObjectWithData(dataStuff, options: NSJSONReadingOptions.allZeros, error: &parseError) as! NSDictionary
+            println(parseStuff["error"])
+            
         }
-        task.resume()
+        task.resume() */
+        
+        UdacityCleint.sharedInstance().loginToUdacity(emailInput.text, password: passwordInput.text) { (result, error) -> Void in
+            if error != nil {
+                // TODO - alert
+                if let userInfo = error!.userInfo as? [NSObject: NSObject] {
+                    println(userInfo["NSLocalizedDescription"])
+                }
+            }
+            else {
+                // show map tab view
+                dispatch_async(dispatch_get_main_queue(), {
+                    let tabController:UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("MapTabs") as! UITabBarController
+                    self.presentViewController(tabController, animated: true, completion: nil)
+                })
+        
+            }
+        }
         
     }
 }

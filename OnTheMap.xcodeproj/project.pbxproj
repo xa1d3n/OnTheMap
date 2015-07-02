@@ -14,6 +14,9 @@
 		B39C30381B42059B00609DEB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B39C30361B42059B00609DEB /* LaunchScreen.xib */; };
 		B39C30441B42059B00609DEB /* OnTheMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39C30431B42059B00609DEB /* OnTheMapTests.swift */; };
 		B39C304F1B42075900609DEB /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B39C304E1B42075900609DEB /* logo.png */; };
+		B3F4E2541B4379EB001EEBB5 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F4E2531B4379EB001EEBB5 /* UdacityConstants.swift */; };
+		B3F4E2561B437A17001EEBB5 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F4E2551B437A17001EEBB5 /* UdacityClient.swift */; };
+		B3F4E2581B43873B001EEBB5 /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F4E2571B43873B001EEBB5 /* UdacityConvenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +41,9 @@
 		B39C30421B42059B00609DEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B39C30431B42059B00609DEB /* OnTheMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTheMapTests.swift; sourceTree = "<group>"; };
 		B39C304E1B42075900609DEB /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		B3F4E2531B4379EB001EEBB5 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
+		B3F4E2551B437A17001EEBB5 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
+		B3F4E2571B43873B001EEBB5 /* UdacityConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConvenience.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +85,7 @@
 		B39C302A1B42059B00609DEB /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				B3F4E2501B43799A001EEBB5 /* Model */,
 				B39C302D1B42059B00609DEB /* AppDelegate.swift */,
 				B39C302F1B42059B00609DEB /* ViewController.swift */,
 				B39C30311B42059B00609DEB /* Main.storyboard */,
@@ -121,6 +128,32 @@
 				B39C304E1B42075900609DEB /* logo.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		B3F4E2501B43799A001EEBB5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B3F4E2511B4379B8001EEBB5 /* Clients */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		B3F4E2511B4379B8001EEBB5 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				B3F4E2521B4379C2001EEBB5 /* Udacity */,
+			);
+			name = Clients;
+			sourceTree = "<group>";
+		};
+		B3F4E2521B4379C2001EEBB5 /* Udacity */ = {
+			isa = PBXGroup;
+			children = (
+				B3F4E2531B4379EB001EEBB5 /* UdacityConstants.swift */,
+				B3F4E2551B437A17001EEBB5 /* UdacityClient.swift */,
+				B3F4E2571B43873B001EEBB5 /* UdacityConvenience.swift */,
+			);
+			name = Udacity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,8 +257,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3F4E2561B437A17001EEBB5 /* UdacityClient.swift in Sources */,
 				B39C30301B42059B00609DEB /* ViewController.swift in Sources */,
 				B39C302E1B42059B00609DEB /* AppDelegate.swift in Sources */,
+				B3F4E2581B43873B001EEBB5 /* UdacityConvenience.swift in Sources */,
+				B3F4E2541B4379EB001EEBB5 /* UdacityConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,6 +457,7 @@
 				B39C30491B42059B00609DEB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B39C304A1B42059B00609DEB /* Build configuration list for PBXNativeTarget "OnTheMapTests" */ = {
 			isa = XCConfigurationList;
@@ -429,6 +466,7 @@
 				B39C304C1B42059B00609DEB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
