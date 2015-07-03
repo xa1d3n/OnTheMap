@@ -15,15 +15,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var usersInfo : NSArray = NSArray()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        var pinButton : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "pin"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.Plain, target: self, action: "pinLocation")
+        
+        var refreshButton : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "createAnnotations")
+        
+        
+        // add the buttons
+        self.navigationItem.rightBarButtonItems = [refreshButton, pinButton]
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         getLocations()
+    }
+    
+    func pinLocation() {
+        let informationPostingView : InformationPostingViewController = storyboard?.instantiateViewControllerWithIdentifier("InformationPostingView") as! InformationPostingViewController
+        self.presentViewController(informationPostingView, animated: true, completion: nil)
+        
     }
     
     func getLocations() {
@@ -66,9 +77,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func reloadData(sender: UIBarButtonItem) {
-        getLocations()
-    }
 
     /*
     // MARK: - Navigation

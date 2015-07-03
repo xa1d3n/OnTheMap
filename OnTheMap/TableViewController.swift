@@ -14,6 +14,14 @@ class TableViewController: UITableViewController {
     @IBOutlet var locationsTable: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var pinButton : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "pin"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.Plain, target: self, action: "pinLocation")
+        
+        var refreshButton : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "createAnnotations")
+        
+        
+        // add the buttons
+        self.navigationItem.rightBarButtonItems = [refreshButton, pinButton]
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -27,6 +35,12 @@ class TableViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         getLocations()
+    }
+    
+    func pinLocation() {
+        let informationPostingView : InformationPostingViewController = storyboard?.instantiateViewControllerWithIdentifier("InformationPostingView") as! InformationPostingViewController
+        self.presentViewController(informationPostingView, animated: true, completion: nil)
+        
     }
     
     func getLocations() {
