@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="b0N-7U-vHx">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -46,7 +46,7 @@
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t2W-dh-VXb">
                                 <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.94999999999999996" height="1"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="zjh-p6-EqI"/>
@@ -67,7 +67,7 @@
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nkp-7n-mZ2">
                                 <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="3k5-V8-uBQ"/>
                                 </constraints>
@@ -256,7 +256,7 @@
         <!--Table View-->
         <scene sceneID="ueu-UQ-tpG">
             <objects>
-                <tableViewController title="Table View" id="red-eT-4lV" sceneMemberID="viewController">
+                <tableViewController title="Table View" id="red-eT-4lV" customClass="TableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qjx-hy-TAK">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -278,6 +278,9 @@
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="i6v-va-52a"/>
                         <barButtonItem key="rightBarButtonItem" image="pin" id="TSo-wS-ZjV"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="locationsTable" destination="qjx-hy-TAK" id="n8T-Ik-mkv"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pOx-fQ-cVn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -351,8 +354,15 @@
                     </view>
                     <navigationItem key="navigationItem" title="On The Map" id="Xs7-cd-Wey">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="oHh-df-RKf"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="8vw-Zi-NoG"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="8vw-Zi-NoG">
+                            <connections>
+                                <action selector="reloadData:" destination="TG2-Sq-fzM" id="JCz-t9-2dp"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="3xw-K8-Ey0" id="lQk-P6-jiN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r5S-tb-ZAX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

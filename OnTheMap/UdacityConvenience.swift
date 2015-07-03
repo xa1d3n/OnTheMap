@@ -19,7 +19,7 @@ extension UdacityCleint {
     func loginToUdacity(email: String, password: String, completionHandler: (result: AnyObject?, error: NSError?) -> Void) {
         
         // method
-        var method : String = ""
+        var method = Methods.session
         
         let parameters : [String:String] = [
             UdacityCleint.JSONBodyKeys.Username: email,
@@ -45,6 +45,33 @@ extension UdacityCleint {
                 }
             }
         }
+    }
+    
+    // MARK - GET Convenience Methods
+    func getStudentLocations(completionHandler: (result: AnyObject?, error: NSError?) -> Void) {
+        // method
+        var method = Methods.limit
+        
+        // make the request
+        let task = taskForGETMethod(method) { (result, error) -> Void in
+            if error != nil {
+                completionHandler(result: nil, error: error)
+            }
+            else {
+                if let locations = result as? [NSObject: NSObject] {
+                    if let usersInfo = locations["results"] as? NSArray {
+                        completionHandler(result: usersInfo, error: nil)
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func getFullName(firstName: String, lastName: String) -> String {
+        let fullName = "\(firstName) \(lastName)"
+        
+        return fullName
     }
 
 }

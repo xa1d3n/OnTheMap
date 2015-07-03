@@ -10,13 +10,28 @@ extension UdacityCleint {
     
     // MARK: - Constants
     struct Constants {
-        static let BaseURL: String = "https://www.udacity.com/api/session"
+        // parse app id
+        static let parseAppId: String = "QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr"
+        // parse api key
+        static let parseApiKey: String = "QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY"
+        
+        static let BaseURLUdacity: String = "https://www.udacity.com/api/"
+        static let BaseURLParse: String = "https://api.parse.com/1/classes/StudentLocation"
+        
     }
+    
+    // MARK: - Parameters
+    struct Parameters {
+        
+    }
+    
     
     // MARK: - Methods
     struct Methods {
-        // login
-        static let LoginSession = "{\"udacity\": {\"{email}\": \"account@domain.com\", \"password\": \"{password}\"}}"
+        // udacity session
+        static let session : String = "session"
+        // parse limit
+        static let limit : String = "?limit=100"
     }
     
     // MARK: - JSON Body Keys

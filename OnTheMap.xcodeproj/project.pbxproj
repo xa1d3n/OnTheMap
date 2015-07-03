@@ -16,6 +16,7 @@
 		B39C304F1B42075900609DEB /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = B39C304E1B42075900609DEB /* logo.png */; };
 		B3E813991B44E36E00C4BF42 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3E813981B44E36E00C4BF42 /* MapKit.framework */; };
 		B3E8139B1B44E3D300C4BF42 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E8139A1B44E3D300C4BF42 /* MapViewController.swift */; };
+		B3E8139D1B46335600C4BF42 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E8139C1B46335600C4BF42 /* TableViewController.swift */; };
 		B3F4E2541B4379EB001EEBB5 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F4E2531B4379EB001EEBB5 /* UdacityConstants.swift */; };
 		B3F4E2561B437A17001EEBB5 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F4E2551B437A17001EEBB5 /* UdacityClient.swift */; };
 		B3F4E2581B43873B001EEBB5 /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F4E2571B43873B001EEBB5 /* UdacityConvenience.swift */; };
@@ -45,6 +46,7 @@
 		B39C304E1B42075900609DEB /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		B3E813981B44E36E00C4BF42 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B3E8139A1B44E3D300C4BF42 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		B3E8139C1B46335600C4BF42 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		B3F4E2531B4379EB001EEBB5 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstants.swift; sourceTree = "<group>"; };
 		B3F4E2551B437A17001EEBB5 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityClient.swift; sourceTree = "<group>"; };
 		B3F4E2571B43873B001EEBB5 /* UdacityConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConvenience.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				B39C30361B42059B00609DEB /* LaunchScreen.xib */,
 				B39C302B1B42059B00609DEB /* Supporting Files */,
 				B3E8139A1B44E3D300C4BF42 /* MapViewController.swift */,
+				B3E8139C1B46335600C4BF42 /* TableViewController.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3F4E2561B437A17001EEBB5 /* UdacityClient.swift in Sources */,
+				B3E8139D1B46335600C4BF42 /* TableViewController.swift in Sources */,
 				B3E8139B1B44E3D300C4BF42 /* MapViewController.swift in Sources */,
 				B39C30301B42059B00609DEB /* ViewController.swift in Sources */,
 				B39C302E1B42059B00609DEB /* AppDelegate.swift in Sources */,

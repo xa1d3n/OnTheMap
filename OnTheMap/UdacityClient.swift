@@ -21,7 +21,7 @@ class UdacityCleint {
     func taskForPOSTMethod(method: String, jsonBody: [String:AnyObject], subset: Int, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         // build the url and configure the request
-        let urlString = Constants.BaseURL + method
+        let urlString = Constants.BaseURLUdacity + method
         let url = NSURL(string: urlString)!
         let request = NSMutableURLRequest(URL: url)
         var jsonifyError: NSError? = nil
@@ -34,15 +34,16 @@ class UdacityCleint {
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response,
             error) -> Void in
             
-            var newData: NSData?
-            newData = nil
-            if subset > 0 {
-                newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
-            }
+
             if error != nil { // Handle error…
                 completionHandler(result: nil, error: error)
             }
             else {
+                var newData: NSData?
+                newData = nil
+                if subset > 0 {
+                    newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
+                }
                 //completionHandler(result: NSString(data: data, encoding: NSUTF8StringEncoding), error: nil)
                 if newData != nil {
                     UdacityCleint.parseJSONWithCompletionHandler(newData!, completionHandler: completionHandler)
@@ -50,6 +51,32 @@ class UdacityCleint {
                 else {
                     UdacityCleint.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
                 }
+            }
+        })
+        
+        task.resume()
+        
+        return task
+    }
+    
+    
+    // MARK: - GET
+    func taskForGETMethod(method: String, completionHandler: (result: AnyObject!, error: NSError?) ->Void ) -> NSURLSessionDataTask {
+        // build the url
+        let urlString = Constants.BaseURLParse + method
+        let url = NSURL(string: urlString)!
+        // build the request
+        let request = NSMutableURLRequest(URL: url)
+        request.addValue(Constants.parseAppId, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(Constants.parseApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
+            if error != nil {
+                completionHandler(result: nil, error: error)
+            }
+            else {
+                UdacityCleint.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
             }
         })
         
