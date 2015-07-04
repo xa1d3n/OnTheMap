@@ -26,13 +26,26 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func cancel() {
+        let tabView : TabViewController = storyboard?.instantiateViewControllerWithIdentifier("MapTabs") as! TabViewController
+        self.presentViewController(tabView, animated: true, completion: nil)
     }
     
 

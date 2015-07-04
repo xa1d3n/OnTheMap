@@ -32,7 +32,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func pinLocation() {
-        let informationPostingView : InformationPostingViewController = storyboard?.instantiateViewControllerWithIdentifier("InformationPostingView") as! InformationPostingViewController
+        let informationPostingView : UINavigationController = storyboard?.instantiateViewControllerWithIdentifier("InformationPostingView") as! UINavigationController
         self.presentViewController(informationPostingView, animated: true, completion: nil)
         
     }
