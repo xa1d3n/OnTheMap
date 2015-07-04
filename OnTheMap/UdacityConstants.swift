@@ -25,6 +25,12 @@ extension UdacityCleint {
         
     }
     
+    // MARK: - URL Types
+    struct UrlTypes {
+        static let parse : String = "parse"
+        static let udacity : String = "udacity"
+    }
+    
     
     // MARK: - Methods
     struct Methods {
@@ -32,13 +38,25 @@ extension UdacityCleint {
         static let session : String = "session"
         // parse limit
         static let limit : String = "?limit=100"
+        // public users data
+        static let users : String = "users/"
     }
     
     // MARK: - JSON Body Keys
     struct JSONBodyKeys {
+        // udacity
         static let Udacity = "udacity"
         static let Username = "username"
         static let Password = "password"
+        
+        // parse
+        static let UniqueKey = "uniqueKey"
+        static let FirstName = "firstName"
+        static let LastName = "lastName"
+        static let MapString = "mapString"
+        static let MediaURL = "mediaURL"
+        static let Latitude = "latitude"
+        static let Longitude = "longitude"
     }
     
     

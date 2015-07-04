@@ -84,6 +84,19 @@ class TableViewController: UITableViewController {
         return usersInfo.count
     }
 
+    @IBAction func logout(sender: UIBarButtonItem) {
+        UdacityCleint.sharedInstance().logoutUdacity { (result, error) -> Void in
+            if error != nil {
+                println(error)
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    let loginView : ViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginView") as! ViewController
+                    self.presentViewController(loginView, animated: true, completion: nil)
+                })
+            }
+        }
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

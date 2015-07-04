@@ -62,9 +62,11 @@ class ViewController: UIViewController {
             }
             else {
                 // show map tab view
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                appDelegate.studentId = result!.studentId
                 dispatch_async(dispatch_get_main_queue(), {
                     self.stopSpinner()
-                    let tabController:UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("MapTabs") as! UITabBarController
+                    var tabController:TabViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MapTabs") as! TabViewController
                     self.presentViewController(tabController, animated: true, completion: nil)
                 })
         

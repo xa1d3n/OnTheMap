@@ -12,9 +12,18 @@ import MapKit
 class InformationPostingViewController: UIViewController, MKMapViewDelegate {
 
 
-    @IBOutlet weak var locationInput: UITextView!
+
+    @IBOutlet weak var linkInput: UITextField!
+    @IBOutlet weak var locationInput: UITextField!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
+    
+    var apiKey = ""
+    var firstName = ""
+    var lastName = ""
+    var latitude : CLLocationDegrees = CLLocationDegrees()
+    var longitude : CLLocationDegrees = CLLocationDegrees()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,9 +46,15 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     }
     */
     @IBAction func showMap(sender: UIButton) {
-        mapView.hidden = false
-        submitButton.hidden = false
-        getLocation(locationInput.text)
+        if (!locationInput.text.isEmpty) {
+            mapView.hidden = false
+            submitButton.hidden = false
+            linkInput.hidden = false
+            getLocation(locationInput.text)
+        }
+        else {
+            locationInput.becomeFirstResponder()
+        }
     }
     
     func getLocation(address : String) {
@@ -48,8 +63,51 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
             if let placemark = placemarks?[0] as? CLPlacemark {
                 self.mapView.addAnnotation(MKPlacemark(placemark: placemark))
+                self.latitude = placemark.location.coordinate.latitude
+                self.longitude = placemark.location.coordinate.longitude
+                println("found you")
+            }
+            else {
+                println("cannot find you")
             }
         })
     }
 
+    @IBAction func submit(sender: UIButton) {
+        // get public data
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        apiKey = appDelegate.studentId
+        UdacityCleint.sharedInstance().getUserPublicData(apiKey, completionHandler: { (result, error) -> Void in
+            if error != nil {
+                println(error)
+            }
+            else {
+                self.firstName = result!.firstName
+                self.lastName = result!.lastName
+                self.postLocation()
+            }
+        })
+    }
+    
+    func postLocation() {
+        
+        let userInfo : [String : AnyObject] = [
+            UdacityCleint.JSONBodyKeys.UniqueKey: apiKey,
+            UdacityCleint.JSONBodyKeys.FirstName: firstName,
+            UdacityCleint.JSONBodyKeys.LastName: lastName,
+            UdacityCleint.JSONBodyKeys.MapString: locationInput.text,
+            UdacityCleint.JSONBodyKeys.MediaURL: linkInput.text,
+            UdacityCleint.JSONBodyKeys.Latitude: latitude,
+            UdacityCleint.JSONBodyKeys.Longitude: longitude
+        ]
+        
+        UdacityCleint.sharedInstance().postUserLocation(userInfo, completionHandler: { (result, error) -> Void in
+            if error != nil {
+                println(error)
+            }
+            else {
+                println(result)
+            }
+        })
+    }
 }

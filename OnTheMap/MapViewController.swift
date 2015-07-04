@@ -27,7 +27,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         getLocations()
     }
     
@@ -79,6 +79,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func logout(sender: UIBarButtonItem) {
+        UdacityCleint.sharedInstance().logoutUdacity { (result, error) -> Void in
+            if error != nil {
+                println(error)
+            }
+            else {
+                 dispatch_async(dispatch_get_main_queue(), {
+                    let loginView : ViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginView") as! ViewController
+                    self.presentViewController(loginView, animated: true, completion: nil)
+                })
+            }
+        }
+    }
 
     /*
     // MARK: - Navigation

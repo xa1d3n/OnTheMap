@@ -14,6 +14,7 @@ struct StudentInformation {
     var latitude : CLLocationDegrees = CLLocationDegrees()
     var longitude : CLLocationDegrees =  CLLocationDegrees()
     var mediaURL = ""
+    var studentId = ""
     
     /* Construct a StudentInformation from a dictionary */
     init(dictionary: [String : AnyObject]) {
