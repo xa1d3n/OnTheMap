@@ -48,7 +48,7 @@ extension UdacityCleint {
     }
     
     // MARK - GET Convenience Methods
-    func getStudentLocations(completionHandler: (result: AnyObject?, error: NSError?) -> Void) {
+    func getStudentLocations(completionHandler: (result: [StudentInformation]?, error: NSError?) -> Void) {
         // method
         var method = Methods.limit
         
@@ -59,8 +59,9 @@ extension UdacityCleint {
             }
             else {
                 if let locations = result as? [NSObject: NSObject] {
-                    if let usersInfo = locations["results"] as? NSArray {
-                        completionHandler(result: usersInfo, error: nil)
+                    if let usersInfo = locations["results"] as? [[String : AnyObject]] {
+                        var studentsInfo = StudentInformation.infoFromResults(usersInfo)
+                        completionHandler(result: studentsInfo, error: nil)
                     }
                 }
             }

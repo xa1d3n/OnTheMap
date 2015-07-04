@@ -46,5 +46,13 @@ extension UdacityCleint {
     struct JSONResponseKeys {
         static let Error = "error"
         static let Status = "status"
+        
+        // MARK: StudentInformation
+        static let FirstName = "firstName"
+        static let LastName = "lastName"
+        static let Latitude = "latitude"
+        static let Longitude = "longitude"
+        static let MediaUrl = "mediaURL"
+        
     }
 }

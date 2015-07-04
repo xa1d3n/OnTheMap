@@ -9,7 +9,7 @@
 import UIKit
 
 class TableViewController: UITableViewController {
-    var usersInfo : NSArray = NSArray()
+    var usersInfo : [StudentInformation] = [StudentInformation]()
 
     @IBOutlet var locationsTable: UITableView!
     override func viewDidLoad() {
@@ -45,8 +45,8 @@ class TableViewController: UITableViewController {
     
     func getLocations() {
         UdacityCleint.sharedInstance().getStudentLocations { usersInfo, error in
-            if let usersInfo: AnyObject = usersInfo {
-                self.usersInfo = (usersInfo as? NSArray)!
+            if let usersInfo: [StudentInformation] = usersInfo {
+                self.usersInfo = usersInfo
                 dispatch_async(dispatch_get_main_queue()) {
                     self.locationsTable.reloadData()
                 }
@@ -65,8 +65,8 @@ class TableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("User", forIndexPath: indexPath) as! UITableViewCell
         
-        let firstName : String! = usersInfo[indexPath.row]["firstName"] as! String
-        let lastName : String! = usersInfo[indexPath.row]["lastName"] as! String
+        let firstName = usersInfo[indexPath.row].firstName
+        let lastName = usersInfo[indexPath.row].lastName
 
         let fullName = UdacityCleint.sharedInstance().getFullName(firstName, lastName: lastName)
         cell.textLabel?.text = fullName

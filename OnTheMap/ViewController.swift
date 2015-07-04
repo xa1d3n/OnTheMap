@@ -87,5 +87,9 @@ class ViewController: UIViewController {
         self.activityIndicator.stopAnimating()
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
     }
+    
+    func displayError() {
+        
+    }
 }
 

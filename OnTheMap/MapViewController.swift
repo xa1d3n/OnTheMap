@@ -12,7 +12,7 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    var usersInfo : NSArray = NSArray()
+    var studentInfo: [StudentInformation] = [StudentInformation]()
     
     override func viewDidLoad() {
         
@@ -39,32 +39,34 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func getLocations() {
         UdacityCleint.sharedInstance().getStudentLocations { usersInfo, error in
-            if let usersInfo: AnyObject = usersInfo {
-                self.usersInfo = (usersInfo as? NSArray)!
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.createAnnotations(self.usersInfo)
-                }
+            if let usersInfo =  usersInfo {
+                self.studentInfo = usersInfo
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.createAnnotations(self.studentInfo)
+                })
+                
             } else {
                 println(error)
             }
         }
     }
     
-    func createAnnotations(users: NSArray) {
+    func createAnnotations(users: [StudentInformation]) {
         for user in users {
             var annotation = MKPointAnnotation()
-            let latitude : CLLocationDegrees! = user["latitude"] as! CLLocationDegrees
-            let longitude : CLLocationDegrees! = user["longitude"] as! CLLocationDegrees
+            let latitude = user.latitude
+            let longitude = user.longitude
             var location : CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
             annotation.coordinate = location
             
-            let firstName : String! = user["firstName"] as! String
-            let lastName : String! = user["lastName"] as! String
+            let firstName = user.firstName
+            let lastName = user.lastName
             
             let fullName = UdacityCleint.sharedInstance().getFullName(firstName, lastName: lastName)
             annotation.title = fullName
             
-            let mediaURL : String! = user["mediaURL"] as! String
+            let mediaURL = user.mediaURL
             annotation.subtitle = mediaURL
             mapView.addAnnotation(annotation)
             
