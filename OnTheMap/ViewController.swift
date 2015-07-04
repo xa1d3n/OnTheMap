@@ -9,6 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
 
     @IBOutlet weak var emailInput: UITextField!
     @IBOutlet weak var passwordInput: UITextField!
@@ -21,10 +23,12 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        
     }
     
     override func viewWillAppear(animated: Bool) {
        // login.enabled = false
+        
     }
 
 
@@ -42,9 +46,16 @@ class ViewController: UIViewController {
     
     func loginUser() {
         
+        startSpinner()
         UdacityCleint.sharedInstance().loginToUdacity(emailInput.text, password: passwordInput.text) { (result, error) -> Void in
+            
             if error != nil {
                 // TODO - alert
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.stopSpinner()
+                })
+                
                 if let userInfo = error!.userInfo as? [NSObject: NSObject] {
                     println(userInfo["NSLocalizedDescription"])
                 }
@@ -52,6 +63,7 @@ class ViewController: UIViewController {
             else {
                 // show map tab view
                 dispatch_async(dispatch_get_main_queue(), {
+                    self.stopSpinner()
                     let tabController:UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("MapTabs") as! UITabBarController
                     self.presentViewController(tabController, animated: true, completion: nil)
                 })
@@ -59,6 +71,21 @@ class ViewController: UIViewController {
             }
         }
         
+    }
+    
+    func startSpinner() {
+        activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+    }
+    
+    func stopSpinner() {
+        self.activityIndicator.stopAnimating()
+        UIApplication.sharedApplication().endIgnoringInteractionEvents()
     }
 }
 

@@ -12,6 +12,7 @@ import MapKit
 class InformationPostingViewController: UIViewController, MKMapViewDelegate {
 
 
+    @IBOutlet weak var locationInput: UITextView!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
@@ -38,6 +39,17 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     @IBAction func showMap(sender: UIButton) {
         mapView.hidden = false
         submitButton.hidden = false
+        getLocation(locationInput.text)
+    }
+    
+    func getLocation(address : String) {
+
+        var geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address, completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
+            if let placemark = placemarks?[0] as? CLPlacemark {
+                self.mapView.addAnnotation(MKPlacemark(placemark: placemark))
+            }
+        })
     }
 
 }
