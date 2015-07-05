@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="zOg-0Q-ItI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="b0N-7U-vHx">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -444,7 +444,13 @@
                                     <action selector="showMap:" destination="OAm-Od-Up6" eventType="touchUpInside" id="sRl-rh-qR9"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fWP-PD-mUt">
+                            <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="pbA-FI-51r">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <connections>
+                                    <outlet property="delegate" destination="OAm-Od-Up6" id="CZm-pd-Ca6"/>
+                                </connections>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fWP-PD-mUt">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -474,12 +480,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="pbA-FI-51r">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <connections>
-                                    <outlet property="delegate" destination="OAm-Od-Up6" id="CZm-pd-Ca6"/>
-                                </connections>
-                            </mapView>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -493,7 +493,9 @@
                             <constraint firstItem="Hx9-4u-qCH" firstAttribute="centerX" secondItem="iXg-WH-Qzu" secondAttribute="centerX" constant="-0.25" id="8vc-sE-4Qu"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pbA-FI-51r" secondAttribute="trailing" constant="-16" id="FcZ-qC-a5V"/>
                             <constraint firstItem="Hx9-4u-qCH" firstAttribute="top" secondItem="iXg-WH-Qzu" secondAttribute="bottom" constant="7.5" id="HW2-Nx-QfJ"/>
-                            <constraint firstItem="pbA-FI-51r" firstAttribute="top" secondItem="Hx9-4u-qCH" secondAttribute="bottom" constant="170.5" id="HkZ-AW-p0D"/>
+                            <constraint firstItem="pbA-FI-51r" firstAttribute="top" secondItem="Hx9-4u-qCH" secondAttribute="bottom" constant="170.5" id="HkZ-AW-p0D">
+                                <variation key="heightClass=regular-widthClass=compact" constant="42.5"/>
+                            </constraint>
                             <constraint firstItem="iXg-WH-Qzu" firstAttribute="top" secondItem="MtE-DM-oWO" secondAttribute="bottom" constant="8" id="HuG-ps-6sp"/>
                             <constraint firstAttribute="centerX" secondItem="M5w-QC-iLS" secondAttribute="centerX" id="KzU-sH-x08"/>
                             <constraint firstItem="hOc-vP-ICJ" firstAttribute="leading" secondItem="AKK-s8-EGu" secondAttribute="leadingMargin" constant="-16" id="QhR-po-GgY"/>
@@ -502,15 +504,21 @@
                             <constraint firstItem="pbA-FI-51r" firstAttribute="centerX" secondItem="M5w-QC-iLS" secondAttribute="centerX" id="WL3-ye-RXj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="hOc-vP-ICJ" secondAttribute="trailing" constant="-16" id="Xa6-hm-5Ro"/>
                             <constraint firstAttribute="centerX" secondItem="MtE-DM-oWO" secondAttribute="centerX" constant="-0.25" id="YrZ-dY-u08"/>
-                            <constraint firstItem="fWP-PD-mUt" firstAttribute="top" secondItem="M5w-QC-iLS" secondAttribute="bottom" constant="148" id="fME-ku-p6S"/>
-                            <constraint firstItem="pbA-FI-51r" firstAttribute="top" secondItem="Hx9-4u-qCH" secondAttribute="bottom" constant="170.5" id="fNO-MM-Dgm"/>
+                            <constraint firstItem="fWP-PD-mUt" firstAttribute="top" secondItem="M5w-QC-iLS" secondAttribute="bottom" constant="148" id="fME-ku-p6S">
+                                <variation key="heightClass=regular-widthClass=compact" constant="277"/>
+                            </constraint>
+                            <constraint firstItem="pbA-FI-51r" firstAttribute="top" secondItem="Hx9-4u-qCH" secondAttribute="bottom" constant="170.5" id="fNO-MM-Dgm">
+                                <variation key="heightClass=regular-widthClass=compact" constant="42.5"/>
+                            </constraint>
                             <constraint firstItem="iXg-WH-Qzu" firstAttribute="centerX" secondItem="MtE-DM-oWO" secondAttribute="centerX" constant="-0.5" id="ke4-U1-JQF"/>
                             <constraint firstItem="MtE-DM-oWO" firstAttribute="top" secondItem="DEv-cb-Jny" secondAttribute="bottom" constant="20" id="mpq-rc-k3g"/>
                             <constraint firstItem="hOc-vP-ICJ" firstAttribute="top" secondItem="Hx9-4u-qCH" secondAttribute="bottom" constant="42.5" id="piJ-4Z-CHC"/>
                             <constraint firstItem="Hx9-4u-qCH" firstAttribute="centerX" secondItem="hOc-vP-ICJ" secondAttribute="centerX" constant="-0.5" id="pkH-Rg-G0L"/>
                             <constraint firstItem="pbA-FI-51r" firstAttribute="leading" secondItem="AKK-s8-EGu" secondAttribute="leadingMargin" constant="-16" id="v9S-Vr-ShO"/>
                             <constraint firstItem="hOc-vP-ICJ" firstAttribute="leading" secondItem="AKK-s8-EGu" secondAttribute="leadingMargin" constant="-16" id="vVo-lD-EjW"/>
-                            <constraint firstItem="pbA-FI-51r" firstAttribute="top" secondItem="M5w-QC-iLS" secondAttribute="bottom" constant="-2" id="vYM-bx-SOd"/>
+                            <constraint firstItem="pbA-FI-51r" firstAttribute="top" secondItem="M5w-QC-iLS" secondAttribute="bottom" constant="-2" id="vYM-bx-SOd">
+                                <variation key="heightClass=regular-widthClass=compact" constant="-1"/>
+                            </constraint>
                             <constraint firstItem="M5w-QC-iLS" firstAttribute="top" secondItem="DEv-cb-Jny" secondAttribute="bottom" id="y3q-Ya-0zw"/>
                         </constraints>
                         <variation key="default">
@@ -520,9 +528,9 @@
                                 <exclude reference="Hx9-4u-qCH"/>
                                 <exclude reference="hOc-vP-ICJ"/>
                                 <exclude reference="cUn-a9-dPA"/>
+                                <exclude reference="pbA-FI-51r"/>
                                 <exclude reference="fWP-PD-mUt"/>
                                 <exclude reference="M5w-QC-iLS"/>
-                                <exclude reference="pbA-FI-51r"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="361-PO-mKN"/>
@@ -563,9 +571,9 @@
                                 <include reference="Hx9-4u-qCH"/>
                                 <include reference="hOc-vP-ICJ"/>
                                 <include reference="cUn-a9-dPA"/>
+                                <include reference="pbA-FI-51r"/>
                                 <include reference="fWP-PD-mUt"/>
                                 <include reference="M5w-QC-iLS"/>
-                                <include reference="pbA-FI-51r"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="361-PO-mKN"/>

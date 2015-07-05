@@ -43,15 +43,20 @@ class TableViewController: UITableViewController {
         
     }
     
+    // get list of users & their locations
     func getLocations() {
         UdacityCleint.sharedInstance().getStudentLocations { usersInfo, error in
+            // load data
             if let usersInfo: [StudentInformation] = usersInfo {
                 self.usersInfo = usersInfo
                 dispatch_async(dispatch_get_main_queue()) {
                     self.locationsTable.reloadData()
                 }
             } else {
-                println(error)
+                // show error
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert(error!)
+                })
             }
         }
     }
@@ -65,6 +70,7 @@ class TableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("User", forIndexPath: indexPath) as! UITableViewCell
         
+        // set cell data
         let firstName = usersInfo[indexPath.row].firstName
         let lastName = usersInfo[indexPath.row].lastName
 
@@ -76,6 +82,14 @@ class TableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // get url
+        let mediaURL = usersInfo[indexPath.row].mediaURL
+        let url = NSURL(string: mediaURL)!
+        // open in browser
+        UIApplication.sharedApplication().openURL(url)
+    }
+    
 
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -84,10 +98,11 @@ class TableViewController: UITableViewController {
         return usersInfo.count
     }
 
+    // logout of udacity
     @IBAction func logout(sender: UIBarButtonItem) {
         UdacityCleint.sharedInstance().logoutUdacity { (result, error) -> Void in
             if error != nil {
-                println(error)
+                self.showAlert(error!)
             }
             else {
                 dispatch_async(dispatch_get_main_queue(), {
@@ -97,6 +112,11 @@ class TableViewController: UITableViewController {
             }
         }
     }
+    
+    func showAlert(message: NSError) {
+        self.presentViewController(UdacityCleint.sharedInstance().displayAlert(message), animated: true, completion: nil)
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

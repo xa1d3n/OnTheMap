@@ -16,8 +16,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         
+        // add pin button
         var pinButton : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "pin"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.Plain, target: self, action: "pinLocation")
         
+        // add refresh button
         var refreshButton : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "getLocations")
         
         
@@ -31,12 +33,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         getLocations()
     }
     
+    // handle pin button click
     func pinLocation() {
+        // show the information postin view
         let informationPostingView : UINavigationController = storyboard?.instantiateViewControllerWithIdentifier("InformationPostingView") as! UINavigationController
         self.presentViewController(informationPostingView, animated: true, completion: nil)
         
     }
     
+    // get list of user locations
     func getLocations() {
         UdacityCleint.sharedInstance().getStudentLocations { usersInfo, error in
             if let usersInfo =  usersInfo {
@@ -47,13 +52,22 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 })
                 
             } else {
-                println(error)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert(error!)
+                })
             }
         }
     }
     
+    // show alert if error
+    func showAlert(message: NSError) {
+        self.presentViewController(UdacityCleint.sharedInstance().displayAlert(message), animated: true, completion: nil)
+    }
+    
+    // populate map with user annotations
     func createAnnotations(users: [StudentInformation]) {
         for user in users {
+            // set pin location
             var annotation = MKPointAnnotation()
             let latitude = user.latitude
             let longitude = user.longitude
@@ -65,24 +79,53 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             let fullName = UdacityCleint.sharedInstance().getFullName(firstName, lastName: lastName)
             annotation.title = fullName
-            
+
             let mediaURL = user.mediaURL
             annotation.subtitle = mediaURL
             mapView.addAnnotation(annotation)
             
         }
     }
-
+    
+    // set pin properties
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        if annotation is MKPointAnnotation {
+            let pinAnnotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "myPin")
+            pinAnnotationView.pinColor = .Red
+            pinAnnotationView.canShowCallout = true
+            
+            // pin button
+            let infoIcon = UIButton.buttonWithType(UIButtonType.InfoLight) as! UIButton
+            infoIcon.frame.size.width = 44
+            infoIcon.frame.size.height = 44
+            
+            pinAnnotationView.rightCalloutAccessoryView = infoIcon
+            
+            return pinAnnotationView
+        }
+        return nil
+    }
+    
+    // handle pin click
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+        // open url in browser
+        let urlString = view.annotation.subtitle
+        let url = NSURL(string: urlString!)
+        UIApplication.sharedApplication().openURL(url!)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    // handle logout button
     @IBAction func logout(sender: UIBarButtonItem) {
         UdacityCleint.sharedInstance().logoutUdacity { (result, error) -> Void in
             if error != nil {
-                println(error)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert(error!)
+                })
             }
             else {
                  dispatch_async(dispatch_get_main_queue(), {

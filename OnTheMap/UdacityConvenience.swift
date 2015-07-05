@@ -128,6 +128,22 @@ extension UdacityCleint {
         task.resume()
     }
     
+    func displayAlert(error: NSError) -> UIAlertController {
+        var errMessage = error.localizedDescription
+        
+        /* if let userInfo = error.userInfo as? [NSObject: NSObject] {
+            errMessage = userInfo["NSLocalizedDescription"] as! String
+        } */
+
+        
+        var alert = UIAlertController(title: nil, message: errMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        return alert
+    }
+    
     
     func getFullName(firstName: String, lastName: String) -> String {
         let fullName = "\(firstName) \(lastName)"

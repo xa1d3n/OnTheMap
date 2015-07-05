@@ -50,15 +50,10 @@ class ViewController: UIViewController {
         UdacityCleint.sharedInstance().loginToUdacity(emailInput.text, password: passwordInput.text) { (result, error) -> Void in
             
             if error != nil {
-                // TODO - alert
-                
                 dispatch_async(dispatch_get_main_queue(), {
                     self.stopSpinner()
+                    self.showAlert(error!)
                 })
-                
-                if let userInfo = error!.userInfo as? [NSObject: NSObject] {
-                    println(userInfo["NSLocalizedDescription"])
-                }
             }
             else {
                 // show map tab view
@@ -73,6 +68,10 @@ class ViewController: UIViewController {
             }
         }
         
+    }
+    
+    func showAlert(message: NSError) {
+        self.presentViewController(UdacityCleint.sharedInstance().displayAlert(message), animated: true, completion: nil)
     }
     
     func startSpinner() {

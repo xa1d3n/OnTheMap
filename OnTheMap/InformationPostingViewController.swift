@@ -58,11 +58,10 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // handle show map button
     @IBAction func showMap(sender: UIButton) {
         if (!locationInput.text.isEmpty) {
-            mapView.hidden = false
-            submitButton.hidden = false
-            linkInput.hidden = false
             getLocation(locationInput.text)
         }
         else {
@@ -70,40 +69,83 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    // determine user location via geocoder
     func getLocation(address : String) {
 
         var geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
-            if let placemark = placemarks?[0] as? CLPlacemark {
-                self.mapView.addAnnotation(MKPlacemark(placemark: placemark))
-                self.latitude = placemark.location.coordinate.latitude
-                self.longitude = placemark.location.coordinate.longitude
-                println("found you")
-            }
-            else {
-                println("cannot find you")
-            }
-        })
-    }
-
-    @IBAction func submit(sender: UIButton) {
-        // get public data
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        apiKey = appDelegate.studentId
-        UdacityCleint.sharedInstance().getUserPublicData(apiKey, completionHandler: { (result, error) -> Void in
             if error != nil {
-                println(error)
+                self.showAlert(error!)
             }
             else {
-                self.firstName = result!.firstName
-                self.lastName = result!.lastName
-                self.postLocation()
+                self.mapView.hidden = false
+                self.submitButton.hidden = false
+                self.linkInput.hidden = false
+                
+                if let placemark = placemarks?[0] as? CLPlacemark {
+                    self.latitude = placemark.location.coordinate.latitude
+                    self.longitude = placemark.location.coordinate.longitude
+                    self.placeMarkerOnMap(placemark)
+                }
             }
+
         })
     }
     
+    // Set marker on map and zoom in
+    func placeMarkerOnMap(placemark: CLPlacemark) {
+        // set zoom
+        var latDelta : CLLocationDegrees = 0.01
+        var longDelta : CLLocationDegrees = 0.01
+        
+        // make span
+        var span : MKCoordinateSpan = MKCoordinateSpanMake(latDelta, longDelta)
+        // create location
+        var location : CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+        // create region
+        var region : MKCoordinateRegion = MKCoordinateRegionMake(location, span)
+        
+        mapView.setRegion(region, animated: true)
+        
+        mapView.addAnnotation(MKPlacemark(placemark: placemark))
+    }
+    
+
+    // handle submit button
+    @IBAction func submit(sender: UIButton) {
+        // get public data
+        
+        if (!linkInput.text.isEmpty) {
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            apiKey = appDelegate.studentId
+            UdacityCleint.sharedInstance().getUserPublicData(apiKey, completionHandler: { (result, error) -> Void in
+                if error != nil {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.showAlert(error!)
+                    })
+                }
+                else {
+                    self.firstName = result!.firstName
+                    self.lastName = result!.lastName
+                    self.postLocation()
+                }
+            })
+        }
+        else {
+            linkInput.becomeFirstResponder()
+        }
+    }
+    
+    
+    // show alert bar with message
+    func showAlert(message: NSError) {
+        self.presentViewController(UdacityCleint.sharedInstance().displayAlert(message), animated: true, completion: nil)
+    }
+    
+    // post location to parse
     func postLocation() {
         
+        // user data
         let userInfo : [String : AnyObject] = [
             UdacityCleint.JSONBodyKeys.UniqueKey: apiKey,
             UdacityCleint.JSONBodyKeys.FirstName: firstName,
@@ -116,10 +158,12 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
         
         UdacityCleint.sharedInstance().postUserLocation(userInfo, completionHandler: { (result, error) -> Void in
             if error != nil {
-                println(error)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert(error!)
+                })
             }
             else {
-                println(result)
+                self.cancel()
             }
         })
     }
