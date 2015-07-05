@@ -11,7 +11,7 @@ import MapKit
 
 class InformationPostingViewController: UIViewController, MKMapViewDelegate {
 
-
+    var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
 
     @IBOutlet weak var linkInput: UITextField!
     @IBOutlet weak var locationInput: UITextField!
@@ -35,7 +35,13 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        // add cancel button
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
+        
+        // set placeholder text
+        locationInput.attributedPlaceholder = NSAttributedString(string: "Enter Your Location Here", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
+        linkInput.attributedPlaceholder = NSAttributedString(string: "Enter a Link to Share Here", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,10 +77,11 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     
     // determine user location via geocoder
     func getLocation(address : String) {
-
+        startSpinner()
         var geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
             if error != nil {
+                self.stopSpinner()
                 self.showAlert(error!)
             }
             else {
@@ -87,6 +94,7 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
                     self.longitude = placemark.location.coordinate.longitude
                     self.placeMarkerOnMap(placemark)
                 }
+                self.stopSpinner()
             }
 
         })
@@ -140,6 +148,21 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     // show alert bar with message
     func showAlert(message: NSError) {
         self.presentViewController(UdacityCleint.sharedInstance().displayAlert(message), animated: true, completion: nil)
+    }
+    
+    func startSpinner() {
+        activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+    }
+    
+    func stopSpinner() {
+        self.activityIndicator.stopAnimating()
+        UIApplication.sharedApplication().endIgnoringInteractionEvents()
     }
     
     // post location to parse
