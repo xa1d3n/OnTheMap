@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
@@ -121,7 +123,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // handle logout button
     @IBAction func logout(sender: UIBarButtonItem) {
-        UdacityCleint.sharedInstance().logoutUdacity { (result, error) -> Void in
+        // facebook logout
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            let loginManager = FBSDKLoginManager()
+            loginManager.logOut()
+        }
+        
+       UdacityCleint.sharedInstance().logoutUdacity { (result, error) -> Void in
             if error != nil {
                 dispatch_async(dispatch_get_main_queue(), {
                     self.showAlert(error!)
@@ -129,11 +137,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
             else {
                  dispatch_async(dispatch_get_main_queue(), {
-                    let loginView : ViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginView") as! ViewController
-                    self.presentViewController(loginView, animated: true, completion: nil)
+                    self.goToLoginView()
                 })
             }
         }
+        
+        
+    }
+    
+    func goToLoginView() {
+        let loginView : ViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginView") as! ViewController
+        self.presentViewController(loginView, animated: true, completion: nil)
     }
 
     /*

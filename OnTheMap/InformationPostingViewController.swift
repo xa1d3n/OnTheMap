@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class InformationPostingViewController: UIViewController, MKMapViewDelegate {
 
@@ -33,6 +35,7 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
 
         // add cancel button
@@ -121,10 +124,14 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
 
     // handle submit button
     @IBAction func submit(sender: UIButton) {
-        // get public data
         
+        // get public data udacity
         if (!linkInput.text.isEmpty) {
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            if (FBSDKAccessToken.currentAccessToken() != nil) {
+                getFacebookUserData()
+            }
+          /*  let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             apiKey = appDelegate.studentId
             UdacityCleint.sharedInstance().getUserPublicData(apiKey, completionHandler: { (result, error) -> Void in
                 if error != nil {
@@ -137,7 +144,7 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
                     self.lastName = result!.lastName
                     self.postLocation()
                 }
-            })
+            }) */
         }
         else {
             linkInput.becomeFirstResponder()
@@ -169,6 +176,10 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     func postLocation() {
         
         // user data
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            getFacebookUserData()
+        }
+        
         let userInfo : [String : AnyObject] = [
             UdacityCleint.JSONBodyKeys.UniqueKey: apiKey,
             UdacityCleint.JSONBodyKeys.FirstName: firstName,
@@ -187,6 +198,27 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
             }
             else {
                 self.cancel()
+            }
+        })
+    }
+    
+    func getFacebookUserData()
+    {
+        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
+        graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+            
+            if ((error) != nil)
+            {
+                // Process error
+                println("Error: \(error)")
+            }
+            else
+            {
+                println("fetched user: \(result)")
+                let userName : NSString = result.valueForKey("name") as! NSString
+                println("User Name is: \(userName)")
+                let userEmail : NSString = result.valueForKey("email") as! NSString
+                println("User Email is: \(userEmail)")
             }
         })
     }

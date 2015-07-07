@@ -7,17 +7,59 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
 
     @IBOutlet weak var emailInput: UITextField!
     @IBOutlet weak var passwordInput: UITextField!
     @IBOutlet weak var login: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        // check facebook login status
+        if (FBSDKAccessToken.currentAccessToken() == nil) {
+            println("not logged in")
+        }
+        else {
+            self.goToMapView()
+        }
+        
+        // add a facebook login button
+        var loginButton = FBSDKLoginButton()
+        loginButton.readPermissions = ["public_profile", "email"]
+        //loginButton.center = self.view.center
+        
+        let screenWidth = view.bounds.width
+        let screenHeight = view.bounds.height
+        loginButton.frame = CGRectMake(10, (screenHeight - 50 - 10), screenWidth - 20, 50)
+        
+        loginButton.delegate = self
+        
+        // add the button to view
+        self.view.addSubview(loginButton)
+    }
+    
+    // MARK - Facebook Login
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        if error == nil {
+            if (FBSDKAccessToken.currentAccessToken() != nil) {
+                println("loggin sucessful")
+                self.goToMapView()
+            }
+        }else {
+            showAlert(error)
+        }
+    }
+    
+    // MARK - Facebook Logout
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        println("logged out")
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,9 +71,15 @@ class ViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
        // login.enabled = false
         
+        // set placeholder text
+        emailInput.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
+        passwordInput.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        
     }
 
 
+    // udacity email/password login
     @IBAction func loginButton(sender: UIButton) {
         if emailInput.text.isEmpty {
             emailInput.becomeFirstResponder()
@@ -44,9 +92,11 @@ class ViewController: UIViewController {
         }
     }
     
+    // login with udacity
     func loginUser() {
         
         startSpinner()
+        
         UdacityCleint.sharedInstance().loginToUdacity(emailInput.text, password: passwordInput.text) { (result, error) -> Void in
             
             if error != nil {
@@ -61,8 +111,7 @@ class ViewController: UIViewController {
                 appDelegate.studentId = result!.studentId
                 dispatch_async(dispatch_get_main_queue(), {
                     self.stopSpinner()
-                    var tabController:TabViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MapTabs") as! TabViewController
-                    self.presentViewController(tabController, animated: true, completion: nil)
+                    self.goToMapView()
                 })
         
             }
@@ -70,10 +119,18 @@ class ViewController: UIViewController {
         
     }
     
+    // go to map view
+    func goToMapView() {
+        var tabController:TabViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MapTabs") as! TabViewController
+        self.presentViewController(tabController, animated: true, completion: nil)
+    }
+    
+    // show error alert
     func showAlert(message: NSError) {
         self.presentViewController(UdacityCleint.sharedInstance().displayAlert(message), animated: true, completion: nil)
     }
     
+    // start the spinner
     func startSpinner() {
         activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         activityIndicator.center = self.view.center
@@ -84,13 +141,19 @@ class ViewController: UIViewController {
         UIApplication.sharedApplication().beginIgnoringInteractionEvents()
     }
     
+    // stop spinner
     func stopSpinner() {
         self.activityIndicator.stopAnimating()
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
     }
     
-    func displayError() {
-        
+    // handle udacity account sign up button
+    @IBAction func accountSignUp(sender: UIButton) {
+        // get url
+        let mediaURL = "https://www.udacity.com/account/auth#!/signup"
+        let url = NSURL(string: mediaURL)!
+        // open in browser
+        UIApplication.sharedApplication().openURL(url)
     }
 }
 

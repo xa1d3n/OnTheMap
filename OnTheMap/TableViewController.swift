@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class TableViewController: UITableViewController {
     var usersInfo : [StudentInformation] = [StudentInformation]()
@@ -82,6 +84,7 @@ class TableViewController: UITableViewController {
         return cell
     }
     
+    // open url in safari on table row click
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // get url
         let mediaURL = usersInfo[indexPath.row].mediaURL
@@ -100,19 +103,31 @@ class TableViewController: UITableViewController {
 
     // logout of udacity
     @IBAction func logout(sender: UIBarButtonItem) {
+        // facebook logout
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            let loginManager = FBSDKLoginManager()
+            loginManager.logOut()
+        }
+        
         UdacityCleint.sharedInstance().logoutUdacity { (result, error) -> Void in
             if error != nil {
                 self.showAlert(error!)
             }
             else {
                 dispatch_async(dispatch_get_main_queue(), {
-                    let loginView : ViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginView") as! ViewController
-                    self.presentViewController(loginView, animated: true, completion: nil)
+                    self.goToLoginView()
                 })
             }
         }
     }
     
+    // show login view on logout
+    func goToLoginView() {
+        let loginView : ViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginView") as! ViewController
+        self.presentViewController(loginView, animated: true, completion: nil)
+    }
+    
+    // display alert
     func showAlert(message: NSError) {
         self.presentViewController(UdacityCleint.sharedInstance().displayAlert(message), animated: true, completion: nil)
     }
