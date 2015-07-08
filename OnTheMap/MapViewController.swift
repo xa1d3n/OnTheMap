@@ -145,9 +145,32 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    // go back to login
     func goToLoginView() {
         let loginView : ViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginView") as! ViewController
         self.presentViewController(loginView, animated: true, completion: nil)
+    }
+    
+    
+    // query parse if pin already exists
+    func requiresOverwrite(uniqueKey: String) -> Bool {
+        var needsOverwrite = false
+        
+        UdacityCleint.sharedInstance().queryStudentLocation(uniqueKey) { (result, error) -> Void in
+            
+            if error != nil {
+                println("original")
+            }
+            else {
+                if let results = result["results"] as? NSArray {
+                    if results.count > 0 {
+                        needsOverwrite = true
+                    }
+                }
+            }
+        }
+        
+        return needsOverwrite
     }
 
     /*

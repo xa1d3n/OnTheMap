@@ -49,6 +49,7 @@ extension UdacityCleint {
         }
     }
     
+    // post user location to parse
     func postUserLocation(userDetails: [String : AnyObject], completionHandler: (result: AnyObject?, error: NSError?) -> Void) {
         let parameters = userDetails
         
@@ -59,11 +60,14 @@ extension UdacityCleint {
             }
             else {
                 println(result)
+                completionHandler(result: result, error: nil)
+
             }
         }
     }
     
     // MARK - GET Convenience Methods
+    // get student locations from parse
     func getStudentLocations(completionHandler: (result: [StudentInformation]?, error: NSError?) -> Void) {
         // method
         var method = Methods.limit
@@ -84,6 +88,22 @@ extension UdacityCleint {
         }
     }
     
+    // query user location from parse
+    func queryStudentLocation(uniqueKey: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
+        var method = Methods.WhereQuery + uniqueKey + "%22%7D"
+        
+        let task = taskForGETMethod(method, type: UrlTypes.parse, subset: 0) { (result, error) -> Void in
+            if error != nil {
+                completionHandler(result: nil, error: error)
+            }
+            else {
+                completionHandler(result: result, error: nil)
+            }
+        
+        }
+    }
+    
+    // get user public data from udacity
     func getUserPublicData(userId: String, completionHandler: (result: PublicUserInformation?, error: NSError?) -> Void) {
         // method
         var method = Methods.users + userId
@@ -103,8 +123,7 @@ extension UdacityCleint {
         
     }
     
-    // logout of session
-    
+    // logout of udacity
     func logoutUdacity(completionHandler: (result: AnyObject?, error: NSError?)->Void) {
         let request = NSMutableURLRequest(URL: NSURL(string: Constants.BaseURLUdacity + Methods.session)!)
         request.HTTPMethod = "DELETE"
@@ -128,6 +147,7 @@ extension UdacityCleint {
         task.resume()
     }
     
+    // display alert helper
     func displayAlert(error: NSError) -> UIAlertController {
         var errMessage = error.localizedDescription
         
@@ -144,7 +164,7 @@ extension UdacityCleint {
         return alert
     }
     
-    
+    // get full name helper function
     func getFullName(firstName: String, lastName: String) -> String {
         let fullName = "\(firstName) \(lastName)"
         

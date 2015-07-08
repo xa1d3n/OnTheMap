@@ -39,6 +39,7 @@ class TableViewController: UITableViewController {
         getLocations()
     }
     
+    // handle pin button click
     func pinLocation() {
         let informationPostingView : UINavigationController = storyboard?.instantiateViewControllerWithIdentifier("InformationPostingView") as! UINavigationController
         self.presentViewController(informationPostingView, animated: true, completion: nil)

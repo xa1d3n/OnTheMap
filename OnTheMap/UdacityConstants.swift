@@ -37,9 +37,11 @@ extension UdacityCleint {
         // udacity session
         static let session : String = "session"
         // parse limit
-        static let limit : String = "?limit=100"
+        static let limit : String = "?limit=200"
         // public users data
         static let users : String = "users/"
+        // query user data
+        static let WhereQuery = "?where=%7B%22uniqueKey%22%3A%22"
     }
     
     // MARK: - JSON Body Keys

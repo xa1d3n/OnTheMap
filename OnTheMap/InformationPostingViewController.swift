@@ -46,12 +46,14 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
         
         linkInput.attributedPlaceholder = NSAttributedString(string: "Enter a Link to Share Here", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    // go back to map view
     func cancel() {
         let tabView : TabViewController = storyboard?.instantiateViewControllerWithIdentifier("MapTabs") as! TabViewController
         self.presentViewController(tabView, animated: true, completion: nil)
@@ -128,23 +130,13 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
         // get public data udacity
         if (!linkInput.text.isEmpty) {
             
+            // user data
             if (FBSDKAccessToken.currentAccessToken() != nil) {
                 getFacebookUserData()
             }
-          /*  let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            apiKey = appDelegate.studentId
-            UdacityCleint.sharedInstance().getUserPublicData(apiKey, completionHandler: { (result, error) -> Void in
-                if error != nil {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.showAlert(error!)
-                    })
-                }
-                else {
-                    self.firstName = result!.firstName
-                    self.lastName = result!.lastName
-                    self.postLocation()
-                }
-            }) */
+            else {
+                getUdacityUserData()
+            }
         }
         else {
             linkInput.becomeFirstResponder()
@@ -157,6 +149,7 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
         self.presentViewController(UdacityCleint.sharedInstance().displayAlert(message), animated: true, completion: nil)
     }
     
+    // start the activity indicator
     func startSpinner() {
         activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         activityIndicator.center = self.view.center
@@ -167,28 +160,14 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
         UIApplication.sharedApplication().beginIgnoringInteractionEvents()
     }
     
+    // stop the activity indicator
     func stopSpinner() {
         self.activityIndicator.stopAnimating()
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
     }
     
     // post location to parse
-    func postLocation() {
-        
-        // user data
-        if (FBSDKAccessToken.currentAccessToken() != nil) {
-            getFacebookUserData()
-        }
-        
-        let userInfo : [String : AnyObject] = [
-            UdacityCleint.JSONBodyKeys.UniqueKey: apiKey,
-            UdacityCleint.JSONBodyKeys.FirstName: firstName,
-            UdacityCleint.JSONBodyKeys.LastName: lastName,
-            UdacityCleint.JSONBodyKeys.MapString: locationInput.text,
-            UdacityCleint.JSONBodyKeys.MediaURL: linkInput.text,
-            UdacityCleint.JSONBodyKeys.Latitude: latitude,
-            UdacityCleint.JSONBodyKeys.Longitude: longitude
-        ]
+    func postLocation(userInfo: [String: AnyObject]) {
         
         UdacityCleint.sharedInstance().postUserLocation(userInfo, completionHandler: { (result, error) -> Void in
             if error != nil {
@@ -197,28 +176,71 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
                 })
             }
             else {
-                self.cancel()
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.cancel()
+                })
             }
         })
     }
     
+    // get user data from udacity
+    func getUdacityUserData() {
+        var userInfo : [String: AnyObject] = [String: AnyObject]()
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        apiKey = appDelegate.studentId
+        UdacityCleint.sharedInstance().getUserPublicData(apiKey, completionHandler: { (result, error) -> Void in
+            if error != nil {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlert(error!)
+                })
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    userInfo  = [
+                        UdacityCleint.JSONBodyKeys.UniqueKey: self.apiKey,
+                        UdacityCleint.JSONBodyKeys.FirstName: result!.firstName,
+                        UdacityCleint.JSONBodyKeys.LastName: result!.lastName,
+                        UdacityCleint.JSONBodyKeys.MapString: self.locationInput.text,
+                        UdacityCleint.JSONBodyKeys.MediaURL: self.linkInput.text,
+                        UdacityCleint.JSONBodyKeys.Latitude: self.latitude,
+                        UdacityCleint.JSONBodyKeys.Longitude: self.longitude
+                    ]
+                    self.postLocation(userInfo)
+                })
+            }
+        })
+    }
+    
+    // get user data from facebook
     func getFacebookUserData()
     {
+        var userInfo : [String: AnyObject] = [String: AnyObject]()
+        
         let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
         graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+            
             
             if ((error) != nil)
             {
                 // Process error
-                println("Error: \(error)")
+                self.showAlert(error)
             }
             else
             {
-                println("fetched user: \(result)")
-                let userName : NSString = result.valueForKey("name") as! NSString
-                println("User Name is: \(userName)")
-                let userEmail : NSString = result.valueForKey("email") as! NSString
-                println("User Email is: \(userEmail)")
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    userInfo = [
+                        UdacityCleint.JSONBodyKeys.UniqueKey: result.valueForKey("id") as! String,
+                        UdacityCleint.JSONBodyKeys.FirstName: result.valueForKey("first_name") as! String,
+                        UdacityCleint.JSONBodyKeys.LastName: result.valueForKey("last_name") as! String,
+                        UdacityCleint.JSONBodyKeys.MapString: self.locationInput.text,
+                        UdacityCleint.JSONBodyKeys.MediaURL: self.linkInput.text,
+                        UdacityCleint.JSONBodyKeys.Latitude: self.latitude,
+                        UdacityCleint.JSONBodyKeys.Longitude: self.longitude
+                    ]
+                    self.postLocation(userInfo)
+                })
             }
         })
     }

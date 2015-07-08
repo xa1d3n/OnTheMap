@@ -33,7 +33,6 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
         // add a facebook login button
         var loginButton = FBSDKLoginButton()
         loginButton.readPermissions = ["public_profile", "email"]
-        //loginButton.center = self.view.center
         
         let screenWidth = view.bounds.width
         let screenHeight = view.bounds.height
