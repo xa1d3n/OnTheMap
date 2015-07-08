@@ -147,7 +147,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // go back to login
     func goToLoginView() {
-        let loginView : ViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginView") as! ViewController
+        let loginView : LoginViewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginView") as! LoginViewController
         self.presentViewController(loginView, animated: true, completion: nil)
     }
     
@@ -172,15 +172,5 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         return needsOverwrite
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LoginViewController.swift
 //  OnTheMap
 //
 //  Created by Aldin Fajic on 6/29/15.
@@ -10,7 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-class ViewController: UIViewController, FBSDKLoginButtonDelegate {
+class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView()
 
@@ -18,10 +18,7 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     @IBOutlet weak var passwordInput: UITextField!
     @IBOutlet weak var login: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
+    override func viewDidAppear(animated: Bool) {
         // check facebook login status
         if (FBSDKAccessToken.currentAccessToken() == nil) {
             println("not logged in")
@@ -59,12 +56,6 @@ class ViewController: UIViewController, FBSDKLoginButtonDelegate {
     // MARK - Facebook Logout
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
         println("logged out")
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-        
     }
     
     override func viewWillAppear(animated: Bool) {

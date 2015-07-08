@@ -170,5 +170,12 @@ extension UdacityCleint {
         
         return fullName
     }
+    
+    // validate url
+    func isValidURL(urlString: String) -> Bool {
+        let url = NSURL(string: urlString)!
+        let request = NSURLRequest(URL: url)
+        return NSURLConnection.canHandleRequest(request)
+    }
 
 }

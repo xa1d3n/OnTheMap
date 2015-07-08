@@ -55,20 +55,8 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     
     // go back to map view
     func cancel() {
-        let tabView : TabViewController = storyboard?.instantiateViewControllerWithIdentifier("MapTabs") as! TabViewController
-        self.presentViewController(tabView, animated: true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     // handle show map button
     @IBAction func showMap(sender: UIButton) {
@@ -130,12 +118,18 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
         // get public data udacity
         if (!linkInput.text.isEmpty) {
             
-            // user data
-            if (FBSDKAccessToken.currentAccessToken() != nil) {
-                getFacebookUserData()
+            if (UdacityCleint.sharedInstance().isValidURL(linkInput.text)) {
+                // user data
+                if (FBSDKAccessToken.currentAccessToken() != nil) {
+                    getFacebookUserData()
+                }
+                else {
+                    getUdacityUserData()
+                }
             }
             else {
-                getUdacityUserData()
+                let error = NSError(domain: "Invalid URL", code: 0, userInfo: ["NSLocalizedDescriptionKey" : "Invalid URL"])
+                showAlert(error)
             }
         }
         else {

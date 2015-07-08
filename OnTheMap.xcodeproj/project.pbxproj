@@ -15,7 +15,7 @@
 		B394A4E71B486D46008239CD /* PublicUserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B394A4E61B486D46008239CD /* PublicUserInformation.swift */; };
 		B394A4E91B487050008239CD /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B394A4E81B487050008239CD /* TabViewController.swift */; };
 		B39C302E1B42059B00609DEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39C302D1B42059B00609DEB /* AppDelegate.swift */; };
-		B39C30301B42059B00609DEB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39C302F1B42059B00609DEB /* ViewController.swift */; };
+		B39C30301B42059B00609DEB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39C302F1B42059B00609DEB /* LoginViewController.swift */; };
 		B39C30331B42059B00609DEB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B39C30311B42059B00609DEB /* Main.storyboard */; };
 		B39C30351B42059B00609DEB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B39C30341B42059B00609DEB /* Images.xcassets */; };
 		B39C30381B42059B00609DEB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B39C30361B42059B00609DEB /* LaunchScreen.xib */; };
@@ -50,7 +50,7 @@
 		B39C30281B42059B00609DEB /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B39C302C1B42059B00609DEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B39C302D1B42059B00609DEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B39C302F1B42059B00609DEB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B39C302F1B42059B00609DEB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B39C30321B42059B00609DEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B39C30341B42059B00609DEB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B39C30371B42059B00609DEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 			children = (
 				B3F4E2501B43799A001EEBB5 /* Model */,
 				B39C302D1B42059B00609DEB /* AppDelegate.swift */,
-				B39C302F1B42059B00609DEB /* ViewController.swift */,
+				B39C302F1B42059B00609DEB /* LoginViewController.swift */,
 				B39C30311B42059B00609DEB /* Main.storyboard */,
 				B39C30341B42059B00609DEB /* Images.xcassets */,
 				B39C30361B42059B00609DEB /* LaunchScreen.xib */,
@@ -297,7 +297,7 @@
 				B3E8139D1B46335600C4BF42 /* TableViewController.swift in Sources */,
 				B394A4E11B474F39008239CD /* InformationPostingViewController.swift in Sources */,
 				B3E8139B1B44E3D300C4BF42 /* MapViewController.swift in Sources */,
-				B39C30301B42059B00609DEB /* ViewController.swift in Sources */,
+				B39C30301B42059B00609DEB /* LoginViewController.swift in Sources */,
 				B39C302E1B42059B00609DEB /* AppDelegate.swift in Sources */,
 				B394A4E31B479CB6008239CD /* StudentInformation.swift in Sources */,
 				B3F4E2581B43873B001EEBB5 /* UdacityConvenience.swift in Sources */,
