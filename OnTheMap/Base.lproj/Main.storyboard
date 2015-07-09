@@ -221,7 +221,7 @@
         <!--MapTabs-->
         <scene sceneID="1qK-CS-8Xt">
             <objects>
-                <tabBarController storyboardIdentifier="MapTabs" title="MapTabs" id="b0N-7U-vHx" customClass="TabViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MapTabs" title="MapTabs" id="b0N-7U-vHx" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="j1L-dk-rPw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>

@@ -111,7 +111,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     // go to map view
     func goToMapView() {
-        var tabController:TabViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MapTabs") as! TabViewController
+        var tabController:UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("MapTabs") as! UITabBarController
         self.presentViewController(tabController, animated: true, completion: nil)
     }
     
