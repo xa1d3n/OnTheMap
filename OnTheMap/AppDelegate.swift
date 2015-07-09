@@ -13,6 +13,7 @@ import FBSDKCoreKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var studentId = ""
+    var usersInfo : [StudentInformation] = [StudentInformation]()
 
     var window: UIWindow?
 
