@@ -19,7 +19,7 @@ extension UdacityCleint {
     func loginToUdacity(email: String, password: String, completionHandler: (result: UdacityLoginInformation?, error: NSError?) -> Void) {
         
         // method
-        var method = Methods.session
+        let method = Methods.session
         
         let parameters : [String:String] = [
             UdacityCleint.JSONBodyKeys.Username: email,
@@ -42,7 +42,7 @@ extension UdacityCleint {
                 }
                 else {
                     let session = result["account"] as! NSDictionary
-                    var udacityInfo = UdacityLoginInformation(dictionary: session)
+                    let udacityInfo = UdacityLoginInformation(dictionary: session)
                     completionHandler(result: udacityInfo, error: nil)
                 }
             }
@@ -59,7 +59,7 @@ extension UdacityCleint {
                 completionHandler(result: nil, error: error)
             }
             else {
-                println(result)
+                print(result)
                 completionHandler(result: result, error: nil)
 
             }
@@ -70,7 +70,7 @@ extension UdacityCleint {
     // get student locations from parse
     func getStudentLocations(completionHandler: (result: [StudentInformation]?, error: NSError?) -> Void) {
         // method
-        var method = Methods.limit
+        let method = Methods.limit
         
         // make the request
         let task = taskForGETMethod(method, type: UrlTypes.parse, subset: 0) { (result, error) -> Void in
@@ -80,7 +80,7 @@ extension UdacityCleint {
             else {
                 if let locations = result as? [NSObject: NSObject] {
                     if let usersInfo = locations["results"] as? [[String : AnyObject]] {
-                        var studentsInfo = StudentInformation.infoFromResults(usersInfo)
+                        let studentsInfo = StudentInformation.infoFromResults(usersInfo)
                         completionHandler(result: studentsInfo, error: nil)
                     }
                 }
@@ -90,7 +90,7 @@ extension UdacityCleint {
     
     // query user location from parse
     func queryStudentLocation(uniqueKey: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
-        var method = Methods.WhereQuery + uniqueKey + "%22%7D"
+        let method = Methods.WhereQuery + uniqueKey + "%22%7D"
         
         let task = taskForGETMethod(method, type: UrlTypes.parse, subset: 0) { (result, error) -> Void in
             if error != nil {
@@ -106,7 +106,7 @@ extension UdacityCleint {
     // get user public data from udacity
     func getUserPublicData(userId: String, completionHandler: (result: PublicUserInformation?, error: NSError?) -> Void) {
         // method
-        var method = Methods.users + userId
+        let method = Methods.users + userId
         
         // mak the request
         let task = taskForGETMethod(method, type: UrlTypes.udacity, subset: 5, completionHandler: { (result, error) -> Void in
@@ -115,7 +115,7 @@ extension UdacityCleint {
             }
             else {
                 if let data = result["user"] as? NSDictionary {
-                    var studentsInfo = PublicUserInformation(dictionary: data)
+                    let studentsInfo = PublicUserInformation(dictionary: data)
                     completionHandler(result: studentsInfo, error: nil)
                 }
             }
@@ -129,34 +129,34 @@ extension UdacityCleint {
         request.HTTPMethod = "DELETE"
         var xsrfCookie: NSHTTPCookie? = nil
         let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        for cookie in sharedCookieStorage.cookies as! [NSHTTPCookie] {
+        for cookie in sharedCookieStorage.cookies! as [NSHTTPCookie] {
             if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
         }
         if let xsrfCookie = xsrfCookie {
-            request.addValue(xsrfCookie.value!, forHTTPHeaderField: "X-XSRF-Token")
+            request.addValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-Token")
         }
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             if error != nil { // Handle error…
                 completionHandler(result: nil, error: error)
             }
-            let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
+            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
            // println(NSString(data: newData, encoding: NSUTF8StringEncoding))
             completionHandler(result: newData, error: nil)
         }
-        task.resume()
+        task!.resume()
     }
     
     // display alert helper
     func displayAlert(error: NSError) -> UIAlertController {
-        var errMessage = error.localizedDescription
+        let errMessage = error.localizedDescription
         
         /* if let userInfo = error.userInfo as? [NSObject: NSObject] {
             errMessage = userInfo["NSLocalizedDescription"] as! String
         } */
 
         
-        var alert = UIAlertController(title: nil, message: errMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: nil, message: errMessage, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in
             alert.dismissViewControllerAnimated(true, completion: nil)
         }))

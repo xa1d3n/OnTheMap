@@ -20,10 +20,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         
         // add pin button
-        var pinButton : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "pin"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.Plain, target: self, action: "pinLocation")
+        let pinButton : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "pin"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.Plain, target: self, action: "pinLocation")
         
         // add refresh button
-        var refreshButton : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "getStudentLocationsForMap")
+        let refreshButton : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "getStudentLocationsForMap")
         
         
         // add the buttons
@@ -54,10 +54,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func createAnnotations(users: [StudentInformation]) {
         for user in users {
             // set pin location
-            var annotation = MKPointAnnotation()
+            let annotation = MKPointAnnotation()
             let latitude = user.latitude
             let longitude = user.longitude
-            var location : CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+            let location : CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
             annotation.coordinate = location
             
             let firstName = user.firstName
@@ -81,7 +81,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             pinAnnotationView.canShowCallout = true
             
             // pin button
-            let infoIcon = UIButton.buttonWithType(UIButtonType.InfoLight) as! UIButton
+            let infoIcon = UIButton(type: UIButtonType.InfoLight) as UIButton
             infoIcon.frame.size.width = 44
             infoIcon.frame.size.height = 44
             
@@ -95,7 +95,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // handle pin click
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
         // open url in browser
-        StudentLocations.openURL(view.annotation.subtitle!)
+        StudentLocations.openURL(view.annotation!.subtitle!!)
     }
     
     // handle logout button

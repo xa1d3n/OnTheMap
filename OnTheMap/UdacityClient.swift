@@ -44,7 +44,16 @@ class UdacityCleint {
         }
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)
+        //request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: nil, error: &jsonifyError)
+        
+  
+            
+            //NSJSONSerialization.dataWithJSONObject(obj: nil!, options: nil!)
+            //try! request.HTTPBody = NSJSONSerialization.dataWithJSONObject(obj: jsonBody, options: nil)
+       // NSJSONWritingOptions.PrettyPrinted
+        try! request.HTTPBody = NSJSONSerialization.dataWithJSONObject(jsonBody, options: NSJSONWritingOptions.PrettyPrinted)
+
+      //  NSJSONSerialization.data
         
         // make the request
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response,
@@ -58,20 +67,20 @@ class UdacityCleint {
                 var newData: NSData?
                 newData = nil
                 if subset > 0 {
-                    newData = data.subdataWithRange(NSMakeRange(subset, data.length - subset)) /* subset response data! */
+                    newData = data!.subdataWithRange(NSMakeRange(subset, data!.length - subset)) /* subset response data! */
                 }
                 if newData != nil {
                     UdacityCleint.parseJSONWithCompletionHandler(newData!, completionHandler: completionHandler)
                 }
                 else {
-                    UdacityCleint.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+                    UdacityCleint.parseJSONWithCompletionHandler(data!, completionHandler: completionHandler)
                 }
             }
         })
         
-        task.resume()
+        task!.resume()
         
-        return task
+        return task!
     }
     
     
@@ -105,28 +114,32 @@ class UdacityCleint {
                 var newData: NSData?
                 newData = nil
                 if subset > 0 {
-                    newData = data.subdataWithRange(NSMakeRange(subset, data.length - subset)) /* subset response data! */
+                    newData = data!.subdataWithRange(NSMakeRange(subset, data!.length - subset)) /* subset response data! */
                 }
                 if newData != nil {
                     UdacityCleint.parseJSONWithCompletionHandler(newData!, completionHandler: completionHandler)
                 }
                 else {
-                    UdacityCleint.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+                    UdacityCleint.parseJSONWithCompletionHandler(data!, completionHandler: completionHandler)
                 }
             }
         })
         
-        task.resume()
+        task!.resume()
         
-        return task
+        return task!
     }
     
     /* Helper: Given raw JSON, return a usable Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         
-        var parsingError: NSError? = nil
+        let parsingError: NSError? = nil
         
-        let parsedResult: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
+        /* let parsedResult: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: &parsingError) */
+        
+        let parsedResult: AnyObject? = try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
+        
+       // NSJSONSerialization.JSONObjectWithData(<#T##data: NSData##NSData#>, options: <#T##NSJSONReadingOptions#>)
         
         if let error = parsingError {
             completionHandler(result: nil, error: error)

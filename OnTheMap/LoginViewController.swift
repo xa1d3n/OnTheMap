@@ -21,14 +21,14 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     override func viewDidAppear(animated: Bool) {
         // check facebook login status
         if (FBSDKAccessToken.currentAccessToken() == nil) {
-            println("not logged in")
+            print("not logged in")
         }
         else {
             self.goToMapView()
         }
         
         // add a facebook login button
-        var loginButton = FBSDKLoginButton()
+        let loginButton = FBSDKLoginButton()
         loginButton.readPermissions = ["public_profile", "email"]
         
         let screenWidth = view.bounds.width
@@ -45,7 +45,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         if error == nil {
             if (FBSDKAccessToken.currentAccessToken() != nil) {
-                println("loggin sucessful")
+                print("loggin sucessful")
                 self.goToMapView()
             }
         }else {
@@ -55,7 +55,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     // MARK - Facebook Logout
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-        println("logged out")
+        print("logged out")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -71,10 +71,10 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
     // udacity email/password login
     @IBAction func loginButton(sender: UIButton) {
-        if emailInput.text.isEmpty {
+        if emailInput.text!.isEmpty {
             emailInput.becomeFirstResponder()
         }
-        else if passwordInput.text.isEmpty {
+        else if passwordInput.text!.isEmpty {
             passwordInput.becomeFirstResponder()
         }
         else {
@@ -82,12 +82,16 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
     }
     
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     // login with udacity
     func loginUser() {
         
         startSpinner()
         
-        UdacityCleint.sharedInstance().loginToUdacity(emailInput.text, password: passwordInput.text) { (result, error) -> Void in
+        UdacityCleint.sharedInstance().loginToUdacity(emailInput.text!, password: passwordInput.text!) { (result, error) -> Void in
             
             if error != nil {
                 dispatch_async(dispatch_get_main_queue(), {
@@ -111,7 +115,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     // go to map view
     func goToMapView() {
-        var tabController:UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("MapTabs") as! UITabBarController
+        let tabController:UITabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("MapTabs") as! UITabBarController
         self.presentViewController(tabController, animated: true, completion: nil)
     }
     

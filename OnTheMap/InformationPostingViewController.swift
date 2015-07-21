@@ -60,8 +60,8 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     
     // handle show map button
     @IBAction func showMap(sender: UIButton) {
-        if (!locationInput.text.isEmpty) {
-            getLocation(locationInput.text)
+        if (!locationInput.text!.isEmpty) {
+            getLocation(locationInput.text!)
         }
         else {
             locationInput.becomeFirstResponder()
@@ -71,8 +71,12 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     // determine user location via geocoder
     func getLocation(address : String) {
         startSpinner()
-        var geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(address, completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
+        let geocoder = CLGeocoder()
+        
+       /* geocoder.geocodeAddressString(address) { (placemark: [CLPlacemark]?, error: NSError?) -> Void in
+            
+        } */
+        geocoder.geocodeAddressString(address) { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
             if error != nil {
                 self.stopSpinner()
                 self.showAlert(error!)
@@ -82,33 +86,39 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
                 self.submitButton.hidden = false
                 self.linkInput.hidden = false
                 
-                if let placemark = placemarks?[0] as? CLPlacemark {
-                    self.latitude = placemark.location.coordinate.latitude
-                    self.longitude = placemark.location.coordinate.longitude
-                    self.placeMarkerOnMap(placemark)
-                }
+                let placemark = placemarks?.first
+                
+                    self.latitude = placemark!.location.coordinate.latitude
+                    self.longitude = placemark!.location.coordinate.longitude
+                    self.placeMarkerOnMap(placemark!)
+                
                 self.stopSpinner()
             }
-
-        })
+        }
+        
+        
     }
     
     // Set marker on map and zoom in
     func placeMarkerOnMap(placemark: CLPlacemark) {
         // set zoom
-        var latDelta : CLLocationDegrees = 0.01
-        var longDelta : CLLocationDegrees = 0.01
+        let latDelta : CLLocationDegrees = 0.01
+        let longDelta : CLLocationDegrees = 0.01
         
         // make span
-        var span : MKCoordinateSpan = MKCoordinateSpanMake(latDelta, longDelta)
+        let span : MKCoordinateSpan = MKCoordinateSpanMake(latDelta, longDelta)
         // create location
-        var location : CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+        let location : CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         // create region
-        var region : MKCoordinateRegion = MKCoordinateRegionMake(location, span)
+        let region : MKCoordinateRegion = MKCoordinateRegionMake(location, span)
         
         mapView.setRegion(region, animated: true)
         
         mapView.addAnnotation(MKPlacemark(placemark: placemark))
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        view.endEditing(true)
     }
     
 
@@ -116,9 +126,9 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     @IBAction func submit(sender: UIButton) {
         
         // get public data udacity
-        if (!linkInput.text.isEmpty) {
+        if (!linkInput.text!.isEmpty) {
             
-            if (UdacityCleint.sharedInstance().isValidURL(linkInput.text)) {
+            if (UdacityCleint.sharedInstance().isValidURL(linkInput.text!)) {
                 // user data
                 if (FBSDKAccessToken.currentAccessToken() != nil) {
                     getFacebookUserData()
@@ -179,6 +189,7 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
     
     // get user data from udacity
     func getUdacityUserData() {
+       // var userInfo : [String: AnyObject] = [String: AnyObject]()
         var userInfo : [String: AnyObject] = [String: AnyObject]()
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -195,11 +206,16 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
                         UdacityCleint.JSONBodyKeys.UniqueKey: self.apiKey,
                         UdacityCleint.JSONBodyKeys.FirstName: result!.firstName,
                         UdacityCleint.JSONBodyKeys.LastName: result!.lastName,
-                        UdacityCleint.JSONBodyKeys.MapString: self.locationInput.text,
-                        UdacityCleint.JSONBodyKeys.MediaURL: self.linkInput.text,
+                        UdacityCleint.JSONBodyKeys.MapString: self.locationInput.text!,
+                        UdacityCleint.JSONBodyKeys.MediaURL: self.linkInput.text!,
                         UdacityCleint.JSONBodyKeys.Latitude: self.latitude,
                         UdacityCleint.JSONBodyKeys.Longitude: self.longitude
                     ]
+                    
+                    /*userInfo  = [UdacityCleint.JSONBodyKeys.UniqueKey: self.apiKey,
+                        UdacityCleint.JSONBodyKeys.FirstName: result!.firstName,
+                        UdacityCleint.JSONBodyKeys.LastName: result!.lastName,
+                        UdacityCleint.JSONBodyKeys.MapString: self.locationInput.text!] */
                     self.postLocation(userInfo)
                 })
             }
@@ -228,8 +244,8 @@ class InformationPostingViewController: UIViewController, MKMapViewDelegate {
                         UdacityCleint.JSONBodyKeys.UniqueKey: result.valueForKey("id") as! String,
                         UdacityCleint.JSONBodyKeys.FirstName: result.valueForKey("first_name") as! String,
                         UdacityCleint.JSONBodyKeys.LastName: result.valueForKey("last_name") as! String,
-                        UdacityCleint.JSONBodyKeys.MapString: self.locationInput.text,
-                        UdacityCleint.JSONBodyKeys.MediaURL: self.linkInput.text,
+                        UdacityCleint.JSONBodyKeys.MapString: self.locationInput.text!,
+                        UdacityCleint.JSONBodyKeys.MediaURL: self.linkInput.text!,
                         UdacityCleint.JSONBodyKeys.Latitude: self.latitude,
                         UdacityCleint.JSONBodyKeys.Longitude: self.longitude
                     ]
